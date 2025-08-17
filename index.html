@@ -3,115 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Record</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
-            background: #fff;
-            padding: 20px 40px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            text-align: center;
-            color: #333;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #555;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .next-link {
-            text-align: center;
-            margin-top: 20px;
-        }
-        .next-link a {
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            display: inline-block;
-            cursor: pointer;
-        }
-        .next-link a.locked {
-            background-color: #6c757d;
-            cursor: not-allowed;
-        }
-    </style>
+    <title>Dhatu Sara Assessment</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <h2>Patient Record</h2>
-        <form id="patientForm">
-            <div class="form-group">
-                <label for="name">Patient Name:</label>
-                <input type="text" id="name" name="name">
-            </div>
-            <div class="form-group">
-                <label for="age">Age:</label>
-                <input type="text" id="age" name="age">
-            </div>
-            <div class="form-group">
-                <label for="gender">Gender:</label>
-                <input type="text" id="gender" name="gender">
-            </div>
-            <button type="submit">Save & Validate</button>
-        </form>
-        <div class="next-link">
-            <a href="tvak_sara.html" id="nextPageLink" class="locked">Go to Tvak Sara Assessment</a>
         </div>
-    </div>
-    <script>
-        document.getElementById('patientForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const name = document.getElementById('name').value;
-            const age = document.getElementById('age').value;
-            const gender = document.getElementById('gender').value;
-
-            if (name && age && gender) {
-                const patientData = {
-                    name: name,
-                    age: age,
-                    gender: gender
-                };
-                localStorage.setItem('patientData', JSON.stringify(patientData));
-                alert('Patient data saved successfully!');
-                document.getElementById('nextPageLink').classList.remove('locked');
-            } else {
-                alert('Please fill out all fields to proceed.');
-            }
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
