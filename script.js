@@ -11,67 +11,57 @@ document.addEventListener('DOMContentLoaded', () => {
             ]
         },
         {
-            title: "2. Tvak Sara Assessment",
-            id: "Tvak Sara",
+            title: "2. Collection & Quantity",
+            id: "Collection",
             fields: [
-                { id: "oiliness", label: "Skin Oiliness (e.g., Oily, Dry, Normal)" },
-                { id: "smoothness", label: "Skin Smoothness (e.g., Smooth, Rough)" },
-                { id: "radiance", label: "Skin Radiance (e.g., Radiant, Dull)" },
-                { id: "hair", label: "Hair Qualities (e.g., Soft, Shiny, Dense)" }
+                { id: "collection_time", label: "Collection Time (e.g., Morning, Afternoon, Night)" },
+                { id: "fasting_state", label: "State (e.g., Fasting, Post-prandial, Random)" },
+                { id: "quantity", label: "Quantity (e.g., Scanty, Moderate, Excessive)" },
+                { id: "frequency", label: "Frequency (e.g., Low, Normal, High)" },
+                { id: "urgency", label: "Urgency (e.g., None, Mild, Strong)" },
+                { id: "dysuria", label: "Dysuria/Burning (e.g., None, Mild, Severe)" }
             ]
         },
         {
-            title: "3. Rakta Sara Assessment",
-            id: "Rakta Sara",
+            title: "3. Varna (Color)",
+            id: "Varna",
             fields: [
-                { id: "complexion", label: "Complexion (e.g., Reddish, Rosy)" },
-                { id: "radiance", label: "Radiance" },
-                { id: "mental", label: "Mental Attributes (e.g., Intelligence, Tolerance to Stress)" }
+                { id: "varna", label: "Color (e.g., Clear, Straw, Yellow, Dark Yellow, Reddish, Brownish)" }
             ]
         },
         {
-            title: "4. Mamsa Sara Assessment",
-            id: "Mamsa Sara",
+            title: "4. Gandha & Sensation",
+            id: "Gandha",
             fields: [
-                { id: "development", label: "Muscle Development (e.g., Well-developed, Firm)" },
-                { id: "forgiveness", label: "Forgiveness" },
-                { id: "retaining", label: "Retaining Power" }
+                { id: "gandha", label: "Odor (e.g., Mild, Strong, Foul, Sweetish)" },
+                { id: "burning", label: "Burning Sensation (e.g., None, Mild, Burning)" }
             ]
         },
         {
-            title: "5. Medas Sara Assessment",
-            id: "Medas Sara",
+            title: "5. Rupa (Appearance)",
+            id: "Rupa",
             fields: [
-                { id: "oiliness", label: "Oily Qualities (e.g., Oily, Dry)" },
-                { id: "body_frame", label: "Body Frame (e.g., Heavy, Light)" },
-                { id: "tolerance", label: "Physical Tolerance (e.g., High, Low)" }
+                { id: "phenila", label: "Froth/Phenila (e.g., Absent, Mild, Persistent)" },
+                { id: "avila", label: "Turbidity/Avila (e.g., Clear, Slightly turbid, Turbid)" },
+                { id: "sediment", label: "Sediment (e.g., None, Minimal, Moderate, Heavy)" }
             ]
         },
         {
-            title: "6. Asthi Sara Assessment",
-            id: "Asthi Sara",
+            title: "6. Picchila/Snigdhatva/Threads",
+            id: "Picchila",
             fields: [
-                { id: "bones", label: "Prominence of Bones (e.g., Heels, Ankles)" },
-                { id: "enthusiasm", label: "Enthusiasm" },
-                { id: "activity", label: "Activity Level" }
+                { id: "picchila", label: "Mucus/Picchila (e.g., Absent, Present)" },
+                { id: "snigdhatva", label: "Unctuousness/Snigdhatva (e.g., Absent, Present)" },
+                { id: "tantra", label: "Threads/Tantrika (e.g., Absent, Present)" }
             ]
         },
         {
-            title: "7. Majja Sara Assessment",
-            id: "Majja Sara",
+            title: "7. Additional Symptoms",
+            id: "Additional",
             fields: [
-                { id: "body_parts", label: "Body Parts (e.g., Well-built limbs)" },
-                { id: "voice", label: "Voice Quality" },
-                { id: "joint_size", label: "Joint Size" }
-            ]
-        },
-        {
-            title: "8. Shukra Sara Assessment",
-            id: "Shukra Sara",
-            fields: [
-                { id: "appearance", label: "Appearance (e.g., Gentle Look, Oily Teeth)" },
-                { id: "personality", label: "Personality Traits (e.g., Charming, Powerful)" },
-                { id: "libido", label: "High Libido" }
+                { id: "nocturia", label: "Nocturia (e.g., No, Yes)" },
+                { id: "pain", label: "Pain while urination (e.g., None, Mild, Severe)" },
+                { id: "edema", label: "Swelling/Edema (e.g., No, Yes)" }
             ]
         }
     ];
@@ -121,17 +111,21 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // Final assessment page
             contentHTML = `
-                <h2>Final Assessment & Verdict</h2>
+                <h2>Final Mutra Pariksha Report</h2>
                 <div id="summary">
                     <h3>Patient Information</h3>
                     <pre class="summary-content" id="patientInfoSummary"></pre>
-                    <h3>Sara Assessments</h3>
+                    <h3>Mutra Observations</h3>
                     <pre class="summary-content" id="sarataSummary"></pre>
                 </div>
                 <div class="final-verdict-section">
                     <h3>Final Verdict</h3>
                     <textarea id="finalVerdict" rows="5" placeholder="Enter the final verdict/summary..."></textarea>
-                    <button class="next" onclick="saveFinalVerdict()">Save Final Verdict</button>
+                    <div class="button-group">
+                        <button class="next" onclick="saveFinalVerdict()">Save Final Verdict</button>
+                        <button class="next" onclick="printReport()">Print Report</button>
+                        <button class="back" onclick="resetAll()">Reset All</button>
+                    </div>
                 </div>
                 <div class="button-group">
                     <button type="button" class="back" onclick="navigate(-1)">Back</button>
@@ -174,6 +168,10 @@ Gender: ${state.patientData.gender || 'N/A'}
                     }
                     text += '\n';
                 }
+                const inference = inferDoshaAndNotes(state.sarataData);
+                if (inference.summary) {
+                    text += `Dosha Inference: ${inference.summary}\nRecommendations: ${inference.recommendations}\n`;
+                }
                 sarataSummary.textContent = text;
             }
 
@@ -182,6 +180,64 @@ Gender: ${state.patientData.gender || 'N/A'}
                 finalVerdictTextarea.value = state.finalVerdict;
             }
         }
+    };
+
+    // === Dosha Inference (basic heuristic) ===
+    const inferDoshaAndNotes = (dataBySection) => {
+        const scores = { vata: 0, pitta: 0, kapha: 0 };
+        const add = (type, points = 1) => { scores[type] += points; };
+
+        const get = (section, field) => (dataBySection[section] || {})[field] || '';
+        const includes = (section, field, terms) => {
+            const v = (get(section, field) + '').toLowerCase();
+            return terms.some(t => v.includes(t));
+        };
+
+        // Varna
+        if (includes('Varna', 'varna', ['dark', 'reddish', 'brown'])) add('pitta', 2);
+        if (includes('Varna', 'varna', ['straw', 'pale', 'clear'])) add('vata', 1);
+        if (includes('Varna', 'varna', ['yellow'])) add('pitta', 1);
+
+        // Gandha & Burning
+        if (includes('Gandha', 'gandha', ['foul', 'strong'])) add('pitta', 2);
+        if (includes('Gandha', 'gandha', ['sweet'])) add('kapha', 2);
+        if (includes('Gandha', 'burning', ['burn'])) add('pitta', 2);
+
+        // Rupa
+        if (includes('Rupa', 'phenila', ['persistent'])) add('vata', 1);
+        if (includes('Rupa', 'avila', ['turbid'])) add('kapha', 2);
+        if (includes('Rupa', 'sediment', ['heavy', 'moderate'])) add('kapha', 1);
+
+        // Picchila / Snigdhatva / Threads
+        if (includes('Picchila', 'picchila', ['present'])) add('kapha', 2);
+        if (includes('Picchila', 'snigdhatva', ['present'])) add('kapha', 2);
+        if (includes('Picchila', 'tantra', ['present'])) add('vata', 1);
+
+        // Collection & Symptoms
+        if (includes('Collection', 'quantity', ['excess'])) add('kapha', 1);
+        if (includes('Collection', 'quantity', ['scanty'])) add('vata', 1) || add('pitta', 1);
+        if (includes('Collection', 'urgency', ['strong'])) add('pitta', 1);
+        if (includes('Collection', 'dysuria', ['severe'])) add('pitta', 2);
+
+        if (includes('Additional', 'nocturia', ['yes'])) add('kapha', 1);
+        if (includes('Additional', 'pain', ['severe'])) add('pitta', 1) || add('vata', 1);
+
+        const top = Object.entries(scores).sort((a,b) => b[1]-a[1]);
+        const primary = top[0][1] > 0 ? top[0][0] : '';
+        const secondary = top[1][1] > 0 ? top[1][0] : '';
+        let summary = '';
+        if (primary && secondary && top[0][1] - top[1][1] <= 1) {
+            summary = `${primary.toUpperCase()}-${secondary.toUpperCase()} dominant pattern`;
+        } else if (primary) {
+            summary = `${primary.toUpperCase()} dominant pattern`;
+        }
+
+        let recommendations = '';
+        if (primary === 'pitta') recommendations = 'Pitta-pacifying: cool fluids, coriander, avoid spicy/sour, manage heat.';
+        if (primary === 'vata') recommendations = 'Vata-pacifying: warm fluids, cumin-fennel tea, routine, avoid dehydration.';
+        if (primary === 'kapha') recommendations = 'Kapha-pacifying: reduce sweets/dairy, ginger tea, increase activity.';
+
+        return { scores, summary, recommendations };
     };
 
     // === Form Submission and Validation ===
@@ -249,6 +305,23 @@ Gender: ${state.patientData.gender || 'N/A'}
         } else {
             alert('Please provide a final verdict.');
         }
+    };
+
+    // === Print & Reset ===
+    window.printReport = () => {
+        window.print();
+    };
+
+    window.resetAll = () => {
+        if (!confirm('Clear all saved data and restart?')) return;
+        localStorage.removeItem('patientData');
+        localStorage.removeItem('sarataData');
+        localStorage.removeItem('finalVerdict');
+        state.currentPage = 0;
+        state.patientData = {};
+        state.sarataData = {};
+        state.finalVerdict = '';
+        renderPage();
     };
 
     // Initial render
